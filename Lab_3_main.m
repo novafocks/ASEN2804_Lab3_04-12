@@ -37,14 +37,33 @@ num = n1;
 den = [d2 d1 d0];
 sysTF = tf(num,den);
 %% Step Response
-t= 0:0.01:4;
-u=max(0,min(t-1,1));
-%lsim(sysTF,u,t)
+t= 0:0.01:10;
+u=0.5*ones(size(t));
+figure(n)
+lsim(sysTF,u,t)
 [x,t] = step(sysTF);
 
 
-figure(n);
-plot(t,x-0.5);
-figure(n+6);
-plot(t,x-1);
+% figure(n);
+% plot(t,x.*0.5);
+% figure(n+6);
+% plot(t,x-1);
 end
+
+K_1_4=25;
+K_3_4=1.5;
+d0 = (K_1_4.*K_g.*K_m)./(J_total.*R_m);
+d1 = (((K_g.^2).*(K_m.^2)+K_3_4.*K_g.*K_m)./(J_total.*R_m));
+d2 = 1; 
+n1 = d0;
+num = n1;
+den = [d2 d1 d0];
+sysTF_4 = tf(num,den);
+t_4= 0:0.01:10;
+u_4=0.5*ones(size(t_4));
+figure(20)
+lsim(sysTF_4,u_4,t_4)
+yline(0.5+(0.5*.2));
+xline(1.05);
+
+
